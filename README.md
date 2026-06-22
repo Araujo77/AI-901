@@ -1,4 +1,5 @@
-# Vou utilizar essa página para rascunhos dos meus estudos relacionados a IA.
+#                    Vou utilizar essa página para rascunhos dos meus estudos relacionados a IA
+
 
 1. O que é um LLM ( modelo de linguagem grande )?
 R: Um tipo de modelo de IA projetado para gerar texto semelhante ao humano.
