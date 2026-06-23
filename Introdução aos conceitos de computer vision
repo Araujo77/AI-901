@@ -1,1 +1,29 @@
-Introdução aos conceitos de computer vision
+# Introdução
+
+A pesquisa visual computacional é uma das principais áreas de IA (inteligência artificial) e se concentra na criação de soluções que permitem que aplicativos de IA processem informações visuais.
+
+Considere estes cenários:
+
+Um veículo autônomo precisa detectar e responder ao tráfego e aos pedestres.
+Uma loja usa check-outs inteligentes com câmeras para determinar os produtos na cesta de um cliente.
+Uma câmera de campainha é usada para detectar pessoas na porta da frente.
+
+Esses casos de uso, e muitos outros, dependem da visão computacional.
+É claro que os computadores não têm olhos biológicos que funcionam como os nossos, mas são capazes de processar imagens; de um feed de câmera ao vivo ou de fotografias digitais ou vídeos.
+Essa capacidade de processar imagens é a chave para a criação de software que pode emular a percepção visual humana. Neste módulo, examinaremos os blocos de construção que estão por trás de soluções modernas de visão computacional.
+
+# Tarefas e técnicas de visão computacional
+
+O termo "pesquisa visual computacional" refere-se a uma variedade de tarefas e técnicas nas quais o software de IA processa a entrada visual; normalmente, de imagens, vídeos ou transmissões de câmera ao vivo. A pesquisa visual computacional é um campo bem estabelecido de IA e as técnicas usadas para extrair informações da entrada visual evoluíram significativamente ao longo dos anos
+
+Classificação de imagens
+Uma das soluções de pesquisa visual computacional mais antigas é uma técnica chamada classificação de imagem, na qual um modelo treinado com um grande número de imagens é usado para prever um rótulo de texto com base no conteúdo de uma imagem.
+
+Por exemplo, suponha que um supermercado queira implementar um sistema de check-out inteligente que identifique os produtos automaticamente. Por exemplo, o cliente pode colocar frutas ou legumes em uma escala no check-out, e um aplicativo de IA conectado a uma câmera poderia identificar automaticamente os tipos de produtos (maçã, laranja, banana e assim por diante) e cobrar a quantidade apropriada com base em seu peso. Para que essa solução funcione, um modelo precisaria ser treinado com um grande volume de imagens, cada uma rotulada com o nome correto. O resultado é um modelo que pode usar os recursos visuais de uma imagem para prever seu assunto principal.
+
+
+
+
+
+
+
