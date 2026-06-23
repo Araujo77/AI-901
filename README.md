@@ -138,9 +138,7 @@ Sentença 4 <-> Sentença 5: 0.3 (sobreposição limitada)
 Depois de calcular iterativamente as pontuações do TextRank usando esses pesos, as frases 1, 3 e 5 podem receber as pontuações mais altas, pois se conectam bem a outras frases através de terminologia e conceitos compartilhados. Essas frases seriam selecionadas para formar um resumo conciso: "Cloud computing provides on-demand access to computing resources. Azure is Microsoft's cloud computing platform. Cloud computing enables scalability and flexibility."
 TextRank também pode ser aplicado no nível da palavra para extração de palavras-chave, em que palavras (em vez de frases) se tornam nós e as bordas representam a co-ocorrência dentro de uma janela fixa. As palavras mais bem classificadas são extraídas como termos-chave que representam os principais tópicos do documento.
 
-# Modelos de linguagem semântica
-
-Como o estado da arte para NLP avançou, a capacidade de treinar modelos que encapsulam a relação semântica entre tokens levou ao surgimento de poderosos modelos de linguagem de aprendizado profundo. No cerne desses modelos está a codificação dos tokens de linguagem como vetores (matrizes de valores múltiplos) conhecidos como inserções.
+# Modelos de linguagem semântica (NLP)
 
 Essa abordagem baseada em vetor para modelagem de texto tornou-se comum com técnicas como Word2Vec e GloVe, nas quais tokens de texto são representados como vetores densos com várias dimensões. Durante o treinamento de modelo, os valores de dimensão são atribuídos para refletir características semânticas de cada token com base em seu uso no texto de treinamento. As relações matemáticas entre os vetores podem então ser exploradas para executar tarefas comuns de análise de texto com mais eficiência do que técnicas puramente estatísticas mais antigas. Um avanço mais recente nessa abordagem é usar uma técnica chamada atenção para considerar cada token no contexto e calcular a influência dos tokens ao seu redor. As inserções contextualizadas resultantes, como as encontradas na família gpt de modelos, fornecem a base da IA generativa moderna.
 
@@ -204,13 +202,58 @@ Diagrama da visualização da similaridade do cosseno, mostrando vetores de cach
 Os resultados mostram isso "dog" e "cat" são altamente semelhantes (0,992), enquanto "tree" têm menor semelhança com ambos "dog" (0,333) e "cat" (0,452). Portanto, tree é claramente a exceção.
 
 
+## Processamento de Linguagem Natural (PLN)
+
+O processamento de linguagem natural é um campo da IA que permite que computadores entendam e respondam à linguagem humana. Ele preenche a lacuna entre a comunicação humana e o processamento computacional, combinando técnicas de linguística computacional, aprendizado de máquina e aprendizado profundo.
+
+O PLN analisa grandes volumes de texto ou fala para ajudar os computadores a reconhecer padrões, extrair informações relevantes e gerar respostas semelhantes às humanas. É usado em aplicações do mundo real, como motores de busca, ferramentas de tradução de idiomas, suporte ao cliente automatizado e assistentes digitais pessoais como Siri, Alexa e Cortana.
+
+## Coeficientes Cepstrais de Frequência Mel (MFCCs)
+
+O MFCC é a técnica de extração de recursos mais comum no reconhecimento de fala. Ele imita como o ouvido humano percebe o som enfatizando frequências onde a energia da fala se concentra e compactando intervalos menos importantes.
+
+Como funciona o MFCC
+Dividir áudio em quadros: Divida o sinal em janelas sobrepostas de 20 a 30 milissegundos.
+Aplicar a transformação Fourier: converta cada quadro do domínio de tempo em domínio de frequência, revelando quais tons estão presentes.
+Escala mapeada para Mel: ajuste os intervalos de frequência para corresponder à sensibilidade auditiva humana — distinguimos melhor os tons graves do que os agudos.
+Extrair coeficientes: Compute um pequeno conjunto de números (geralmente 13 coeficientes) que resumem a forma espectral de cada quadro.
+O resultado é uma sequência de vetores de recursos , um por quadro, que captura como o áudio soa sem armazenar cada exemplo. Esses vetores se tornam a entrada para modelagem acústica.
+
+Os vetores são extraídos por coluna, com cada vetor representando os 13 coeficientes das características MFCC para cada quadro temporal.
+
+Frame 1: [ -113.2,  45.3,  12.1,  -3.4,  7.8,  ... ]  # 13 coefficients
+Frame 2: [ -112.8,  44.7,  11.8,  -3.1,  7.5,  ... ]
+Frame 3: [ -110.5,  43.9,  11.5,  -2.9,  7.3,  ... ]
 
 
+## Modelagem acústica: reconhecer phonemes
 
+Os modelos acústicos aprendem a relação entre recursos de áudio e phonemes — as menores unidades de som que distinguem palavras. O inglês usa cerca de 44 phonemes; por exemplo, a palavra "gato" é composta por três phonemes: /k/, /æ/, e /t/.
 
+De recursos a phonemes
+Os modelos acústicos modernos usam arquiteturas de transformador, um tipo de rede de aprendizado profundo que se destaca em tarefas de sequência. O transformador processa os vetores de recurso MFCC e prevê qual fonema é mais provável em cada momento no tempo.
 
+Modelos de transformador alcançam previsão efetiva de fonemas por meio de:
 
+Mecanismo de atenção: O modelo examina os quadros ao redor para resolver a ambiguidade. Por exemplo, o fonema /t/ soa diferente no início de "top" e no final de "bat".
+Processamento paralelo: Ao contrário dos modelos recorrentes mais antigos, os transformadores analisam vários quadros simultaneamente, melhorando a velocidade e a precisão.
+Previsões contextualizadas: A rede aprende que determinadas sequências de phoneme ocorrem com frequência na fala natural.
+A saída da modelagem acústica é uma distribuição de probabilidade sobre fonemas para cada quadro de áudio. Por exemplo, o quadro 42 pode mostrar 80% de confiança para /æ/, 15% para /ɛ/ e 5% para outros fonemas.
 
+##Modelagem de idioma: prever sequências de palavras
+
+As previsões de phoneme por si só não garantem a transcrição precisa. O modelo acústico pode confundir "deles" e "lá" porque eles compartilham fonemas idênticos. Os modelos de linguagem resolvem a ambiguidade aplicando conhecimento de vocabulário, gramática e padrões comuns de palavras. Algumas maneiras pelas quais o modelo guia a previsão de sequência de palavras incluem:
+
+Padrões estatísticos: o modelo sabe que "O clima está bom" aparece com mais frequência em dados de treinamento do que "O se é bom".
+Consciência de contexto: depois de ouvir "Eu preciso", o modelo espera verbos como "ir" ou "concluir", não substantivos como "tabela".
+Adaptação de domínio: Modelos de linguagem personalizados treinados em terminologia médica ou legal melhoram a precisão para cenários especializados.
+Decodificação: selecione a melhor hipótese de texto
+Algoritmos de decodificação pesquisam milhões de sequências de palavras possíveis para encontrar a transcrição que melhor corresponde às previsões do modelo acústico e de linguagem. Esse estágio equilibra duas metas concorrentes: manter-se fiel ao sinal de áudio ao produzir texto legível e gramaticalmente correto.
+
+Decodificação de pesquisa de feixe
+A técnica mais comum, a pesquisa de feixe, mantém uma lista de seleção (o "feixe") de transcrições parciais de pontuação superior à medida que processa cada quadro de áudio. A cada etapa, a hipótese é estendida com a próxima palavra mais provável, enquanto os caminhos de baixa pontuação são eliminados, mantendo apenas os melhores candidatos.
+
+Para um enunciado de três segundos, o decodificador pode avaliar milhares de hipóteses antes de selecionar "Envie o relatório até sexta-feira" sobre alternativas como "Envie o relatório comprar sexta-feira".
 
 
 
