@@ -145,10 +145,10 @@ Avaliação do Módulo
 R: Pixels
 
 2. Qual é a função primária de filtros em uma CNN (rede neural convolucional) usada para classificação de imagem?
-R: Para aplicar efeitos visuais para aprimorar a aparência da imagem.
+R: Para extrair recursos numéricos de imagens para uso em uma rede neural.
 
 3. Qual descrição melhor corresponde a um Transformador de Visão (ViT?
-R: 
+R: Um modelo que usa a atenção para processar partes de imagens e criar embeddings contextuais.
 
 
 
