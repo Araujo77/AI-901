@@ -139,7 +139,16 @@ Para ver o efeito do filtro com mais clareza, veja um exemplo do mesmo filtro ap
 Como o filtro é convolvido na imagem, esse tipo de manipulação de imagem geralmente é conhecido como filtragem convolucional . O filtro usado neste exemplo é um tipo específico de filtro (chamado de filtro Laplace ) que realça as bordas em objetos em uma imagem. Há muitos outros tipos de filtro que você pode usar para criar desfoque, nitidez, inversão de cores e outros efeitos.
 
 
+Avaliação do Módulo
 
+1. A pesquisa visual computacional baseia-se na manipulação e análise de quais tipos de valores em uma imagem?
+R: Pixels
+
+2. Qual é a função primária de filtros em uma CNN (rede neural convolucional) usada para classificação de imagem?
+R: Para aplicar efeitos visuais para aprimorar a aparência da imagem.
+
+3. Qual descrição melhor corresponde a um Transformador de Visão (ViT?
+R: 
 
 
 
