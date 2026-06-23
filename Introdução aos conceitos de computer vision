@@ -1,5 +1,5 @@
 
-# Introdução
+ INTRODUÇÃO
 
 A pesquisa visual computacional é uma das principais áreas de IA (inteligência artificial) e se concentra na criação de soluções que permitem que aplicativos de IA processem informações visuais.
 
@@ -13,14 +13,139 @@ Esses casos de uso, e muitos outros, dependem da visão computacional.
 É claro que os computadores não têm olhos biológicos que funcionam como os nossos, mas são capazes de processar imagens; de um feed de câmera ao vivo ou de fotografias digitais ou vídeos.
 Essa capacidade de processar imagens é a chave para a criação de software que pode emular a percepção visual humana. Neste módulo, examinaremos os blocos de construção que estão por trás de soluções modernas de visão computacional.
 
-# Tarefas e técnicas de visão computacional
+ Tarefas e Técnicas de Visão Computacional
 
 O termo "pesquisa visual computacional" refere-se a uma variedade de tarefas e técnicas nas quais o software de IA processa a entrada visual; normalmente, de imagens, vídeos ou transmissões de câmera ao vivo. A pesquisa visual computacional é um campo bem estabelecido de IA e as técnicas usadas para extrair informações da entrada visual evoluíram significativamente ao longo dos anos
 
-Classificação de imagens
+Classificação de Imagens
+
 Uma das soluções de pesquisa visual computacional mais antigas é uma técnica chamada classificação de imagem, na qual um modelo treinado com um grande número de imagens é usado para prever um rótulo de texto com base no conteúdo de uma imagem.
 
 Por exemplo, suponha que um supermercado queira implementar um sistema de check-out inteligente que identifique os produtos automaticamente. Por exemplo, o cliente pode colocar frutas ou legumes em uma escala no check-out, e um aplicativo de IA conectado a uma câmera poderia identificar automaticamente os tipos de produtos (maçã, laranja, banana e assim por diante) e cobrar a quantidade apropriada com base em seu peso. Para que essa solução funcione, um modelo precisaria ser treinado com um grande volume de imagens, cada uma rotulada com o nome correto. O resultado é um modelo que pode usar os recursos visuais de uma imagem para prever seu assunto principal.
+
+Detecção de Sbjetos
+
+Suponha que o supermercado queira um sistema mais sofisticado, no qual o caixa possa escanear vários itens de uma vez e identificar cada um deles. Uma abordagem comum para esse tipo de problema é chamada de "detecção de objeto". Os modelos de detecção de objetos examinam várias regiões em uma imagem para localizar objetos individuais e seus locais. A previsão resultante do modelo inclui quais objetos foram detectados e as regiões específicas da imagem em que aparecem , indicadas pelas coordenadas da caixa delimitadora retangular.
+
+Segmentação Semântica
+
+Outra maneira mais sofisticada de detectar objetos em uma imagem é chamada de "segmentação semântica". Nessa abordagem, um modelo é treinado para localizar objetos e classificar pixels individuais na imagem com base no objeto ao qual pertencem. O resultado desse processo é uma previsão muito mais precisa do local dos objetos na imagem.
+
+Análise de Imagem Contextual
+
+Os modelos de visão computacional multimodal mais recentes são treinados para encontrar relações contextuais entre objetos em imagens e o texto que os descreve. O resultado é uma capacidade de interpretar semanticamente uma imagem para determinar quais objetos e atividades ela ilustra; e gere descrições apropriadas ou sugira marcas relevantes.
+
+
+Para um computador, uma imagem é uma matriz de valores numéricos de pixel . Por exemplo, considere a seguinte matriz:
+
+ 0   0   0   0   0   0   0  
+ 0   0   0   0   0   0   0
+ 0   0  255 255 255  0   0
+ 0   0  255 255 255  0   0
+ 0   0  255 255 255  0   0
+ 0   0   0   0   0   0   0
+ 0   0   0   0   0   0   0
+
+A matriz consiste em sete linhas e sete colunas, representando os valores de pixel para uma imagem de 7 x 7 pixels (que é conhecida como resolução da imagem). Cada pixel tem um valor entre 0 (preto) e 255 (branco); com valores entre esses limites que representam tons de cinza. A imagem representada por essa matriz é semelhante à seguinte imagem (ampliada):
+
+A matriz de valores de pixel para essa imagem é bidimensional (representando linhas e colunas, ou coordenadas x e y ) e define um único retângulo de valores de pixel. Uma única camada de valores de pixel como esta representa uma imagem em escala de cinza. Na realidade, a maioria das imagens digitais são multidimensionais e consistem em três camadas (conhecidas como canais) que representam tons de cor vermelho, verde e azul (RGB). Por exemplo, poderíamos representar uma imagem de cor definindo três canais de valores de pixel que criam a mesma forma quadrada que o exemplo de escala de cinza anterior:
+
+Red:
+ 150  150  150  150  150  150  150  
+ 150  150  150  150  150  150  150
+ 150  150  255  255  255  150  150
+ 150  150  255  255  255  150  150
+ 150  150  255  255  255  150  150
+ 150  150  150  150  150  150  150
+ 150  150  150  150  150  150  150
+
+Green:
+ 0    0    0    0    0    0    0          
+ 0    0    0    0    0    0    0
+ 0    0   255  255  255   0    0
+ 0    0   255  255  255   0    0
+ 0    0   255  255  255   0    0
+ 0    0    0    0    0    0    0
+ 0    0    0    0    0    0    0
+
+Blue:
+ 255  255  255  255  255  255  255  
+ 255  255  255  255  255  255  255
+ 255  255   0    0    0   255  255
+ 255  255   0    0    0   255  255
+ 255  255   0    0    0   255  255
+ 255  255  255  255  255  255  255
+ 255  255  255  255  255  255  255
+
+
+
+Os quadrados roxos são representados pela combinação:
+
+Red: 150 
+Green: 0 
+Blue: 255
+
+Os quadrados amarelos no centro são representados pela combinação:
+
+Red: 255
+Green: 255
+Blue: 0
+
+
+Filtros
+
+Uma maneira comum de executar tarefas de processamento de imagem é aplicar filtros que modificam os valores de pixel da imagem para criar um efeito visual. Um filtro é definido por uma ou mais matrizes de valores de pixel, chamadas kernels de filtro. Por exemplo, você pode definir o filtro com um kernel 3x3, conforme mostrado neste exemplo:
+
+-1 -1 -1
+-1  8 -1
+-1 -1 -1
+
+Em seguida, o kernel é envolvido em toda a imagem, calculando uma soma ponderada para cada patch de 3x3 de pixels e atribuindo o resultado a uma nova imagem. É mais fácil entender como a filtragem funciona explorando um exemplo passo a passo.
+
+Vamos começar com a imagem em tons de cinza que exploramos anteriormente.
+
+
+ 0   0   0   0   0   0   0  
+ 0   0   0   0   0   0   0
+ 0   0  255 255 255  0   0
+ 0   0  255 255 255  0   0
+ 0   0  255 255 255  0   0
+ 0   0   0   0   0   0   0
+ 0   0   0   0   0   0   0
+
+Primeiro, aplicamos o kernel de filtro ao patch superior esquerdo da imagem, multiplicando cada valor de pixel pelo valor de peso correspondente no kernel e adicionando os resultados:
+
+(0 x -1) + (0 x -1) + (0 x -1) +
+(0 x -1) + (0 x 8) + (0 x -1) +
+(0 x -1) + (0 x -1) + (255 x -1) = -255
+
+O resultado (-255) torna-se o primeiro valor em uma nova matriz. Em seguida, movemos o kernel de filtro ao longo de um pixel para a direita e repetimos a operação:
+
+(0 x -1) + (0 x -1) + (0 x -1) +
+(0 x -1) + (0 x 8) + (0 x -1) +
+(0 x -1) + (255 x -1) + (255 x -1) = -510
+
+Novamente, o resultado é adicionado à nova matriz, que agora contém dois valores:
+
+-255  -510
+
+O processo é repetido até que o filtro tenha sido convolvido em toda a imagem, conforme mostrado nesta animação:
+
+
+O filtro é convolvido na imagem, calculando uma nova matriz de valores. Alguns dos valores podem estar fora do intervalo de valores de 0 a 255 pixels, portanto, os valores são ajustados para se ajustarem a esse intervalo. Devido à forma do filtro, a borda externa dos pixels não é calculada, portanto, um valor de preenchimento (geralmente 0) é aplicado. A matriz resultante representa uma nova imagem na qual o filtro transformou a imagem original. Nesse caso, o filtro teve o efeito de realçar as bordas de formas na imagem.
+
+Para ver o efeito do filtro com mais clareza, veja um exemplo do mesmo filtro aplicado a uma imagem real:
+
+Como o filtro é convolvido na imagem, esse tipo de manipulação de imagem geralmente é conhecido como filtragem convolucional . O filtro usado neste exemplo é um tipo específico de filtro (chamado de filtro Laplace ) que realça as bordas em objetos em uma imagem. Há muitos outros tipos de filtro que você pode usar para criar desfoque, nitidez, inversão de cores e outros efeitos.
+
+
+
+
+
+
+
+
+
 
 
 
