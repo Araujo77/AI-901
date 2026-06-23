@@ -202,13 +202,13 @@ Diagrama da visualização da similaridade do cosseno, mostrando vetores de cach
 Os resultados mostram isso "dog" e "cat" são altamente semelhantes (0,992), enquanto "tree" têm menor semelhança com ambos "dog" (0,333) e "cat" (0,452). Portanto, tree é claramente a exceção.
 
 
-## Processamento de Linguagem Natural (PLN)
+# Processamento de Linguagem Natural (PLN)
 
 O processamento de linguagem natural é um campo da IA que permite que computadores entendam e respondam à linguagem humana. Ele preenche a lacuna entre a comunicação humana e o processamento computacional, combinando técnicas de linguística computacional, aprendizado de máquina e aprendizado profundo.
 
 O PLN analisa grandes volumes de texto ou fala para ajudar os computadores a reconhecer padrões, extrair informações relevantes e gerar respostas semelhantes às humanas. É usado em aplicações do mundo real, como motores de busca, ferramentas de tradução de idiomas, suporte ao cliente automatizado e assistentes digitais pessoais como Siri, Alexa e Cortana.
 
-## Coeficientes Cepstrais de Frequência Mel (MFCCs)
+# Coeficientes Cepstrais de Frequência Mel (MFCCs)
 
 O MFCC é a técnica de extração de recursos mais comum no reconhecimento de fala. Ele imita como o ouvido humano percebe o som enfatizando frequências onde a energia da fala se concentra e compactando intervalos menos importantes.
 
@@ -226,21 +226,21 @@ Frame 2: [ -112.8,  44.7,  11.8,  -3.1,  7.5,  ... ]
 Frame 3: [ -110.5,  43.9,  11.5,  -2.9,  7.3,  ... ]
 
 
-## Modelagem acústica: reconhecer phonemes
+# Modelagem acústica: reconhecer phonemes
 
 Os modelos acústicos aprendem a relação entre recursos de áudio e phonemes — as menores unidades de som que distinguem palavras. O inglês usa cerca de 44 phonemes; por exemplo, a palavra "gato" é composta por três phonemes: /k/, /æ/, e /t/.
 
 De recursos a phonemes
 Os modelos acústicos modernos usam arquiteturas de transformador, um tipo de rede de aprendizado profundo que se destaca em tarefas de sequência. O transformador processa os vetores de recurso MFCC e prevê qual fonema é mais provável em cada momento no tempo.
 
-Modelos de transformador alcançam previsão efetiva de fonemas por meio de:
+## Modelos de transformador alcançam previsão efetiva de fonemas por meio de:
 
 Mecanismo de atenção: O modelo examina os quadros ao redor para resolver a ambiguidade. Por exemplo, o fonema /t/ soa diferente no início de "top" e no final de "bat".
 Processamento paralelo: Ao contrário dos modelos recorrentes mais antigos, os transformadores analisam vários quadros simultaneamente, melhorando a velocidade e a precisão.
 Previsões contextualizadas: A rede aprende que determinadas sequências de phoneme ocorrem com frequência na fala natural.
 A saída da modelagem acústica é uma distribuição de probabilidade sobre fonemas para cada quadro de áudio. Por exemplo, o quadro 42 pode mostrar 80% de confiança para /æ/, 15% para /ɛ/ e 5% para outros fonemas.
 
-##Modelagem de idioma: prever sequências de palavras
+# Modelagem de idioma: prever sequências de palavras
 
 As previsões de phoneme por si só não garantem a transcrição precisa. O modelo acústico pode confundir "deles" e "lá" porque eles compartilham fonemas idênticos. Os modelos de linguagem resolvem a ambiguidade aplicando conhecimento de vocabulário, gramática e padrões comuns de palavras. Algumas maneiras pelas quais o modelo guia a previsão de sequência de palavras incluem:
 
@@ -250,12 +250,131 @@ Adaptação de domínio: Modelos de linguagem personalizados treinados em termin
 Decodificação: selecione a melhor hipótese de texto
 Algoritmos de decodificação pesquisam milhões de sequências de palavras possíveis para encontrar a transcrição que melhor corresponde às previsões do modelo acústico e de linguagem. Esse estágio equilibra duas metas concorrentes: manter-se fiel ao sinal de áudio ao produzir texto legível e gramaticalmente correto.
 
-Decodificação de pesquisa de feixe
+## Decodificação de pesquisa de feixe
+
 A técnica mais comum, a pesquisa de feixe, mantém uma lista de seleção (o "feixe") de transcrições parciais de pontuação superior à medida que processa cada quadro de áudio. A cada etapa, a hipótese é estendida com a próxima palavra mais provável, enquanto os caminhos de baixa pontuação são eliminados, mantendo apenas os melhores candidatos.
 
 Para um enunciado de três segundos, o decodificador pode avaliar milhares de hipóteses antes de selecionar "Envie o relatório até sexta-feira" sobre alternativas como "Envie o relatório comprar sexta-feira".
 
+# Pós-processamento: refinar a saída
+O decodificador produz texto bruto que geralmente requer limpeza antes da apresentação. O pós-processamento aplica regras de formatação e correções para melhorar a legibilidade e a precisão.
 
+## Tarefas comuns pós-processamento
+
+Capitalização: Converta "olá meu nome é Sam" em "Olá, meu nome é Sam".
+Restauração de pontuação: Adicione períodos, vírgulas e pontos de interrogação com base em prosódia e gramática.
+Formatação de número: Altere "mil vinte e três" para "1.023".
+Filtragem de palavrões: Mascarar ou remover palavras inadequadas quando exigido pela política.
+Normalização inversa de texto: Converta formas faladas como "três da tarde" em "15:00".
+Pontuação de confiança: Sinalizar palavras de baixa confiança para revisão humana em aplicativos críticos, como transcrição médica.
+A Fala do Azure retorna a transcrição final junto com metadados, como carimbos de data/hora no nível de palavra e pontuações de confiança, permitindo que seu aplicativo destaque segmentos incertos ou acione comportamentos de fallback.
+
+# Como o pipeline funciona em conjunto
+
+Cada estágio se baseia no anterior:
+
+A captura de áudio fornece o sinal bruto.
+O pré-processamento extrai recursos do MFCC que realçam padrões de fala.
+A modelagem acústica prevê probabilidades de phoneme usando redes transformadoras.
+A modelagem de linguagem aplica o vocabulário e o conhecimento gramatical.
+A decodificação procura a melhor sequência de palavras.
+O pós-processamento formata o texto para leitores humanos.
+Ao separar preocupações, os sistemas modernos de reconhecimento de fala alcançam alta precisão entre linguagens, acentos e condições acústicas. Quando a qualidade da transcrição fica aquém, muitas vezes você pode rastrear o problema para um estágio — captura de áudio ruim, treinamento de modelo de linguagem insuficiente ou pós-processamento excessivamente agressivo — e ajustar adequadamente.
+
+A síntese de fala, também chamada de TTS (conversão de texto em fala), converte o texto escrito em áudio falado. Você encontra síntese de fala quando assistentes virtuais leem notificações, aplicativos de navegação anunciam instruções ou ferramentas de acessibilidade ajudam os usuários a consumir conteúdo escrito audivelmente.
+
+Os sistemas de síntese de fala processam o texto em quatro estágios distintos. Em cada estágio, a entrada é transformada incrementalmente, desenvolvendo-se até se tornar uma forma de onda de áudio final que soa natural e inteligível.
+
+# Normalização de texto: padronizar o texto
+
+A normalização de texto prepara o texto bruto para a pronúncia expandindo abreviações, números e símbolos em formas faladas.
+
+Considere a sentença: "Dr. Smith ordenou 3 itens por US$ 25,50 em 15/12/2023."
+
+Um sistema de normalização converte-o em: "O Doutor Smith pediu três itens por 25 dólares e 50 centavos em 15 de dezembro, dois mil e vinte e três."
+
+As tarefas comuns de normalização incluem:
+
+Expandir abreviações ("Dr." torna-se "Doctor", "Inc." torna-se "Incorporated")
+Converter números em palavras ("3" torna-se "três", "25,50" torna-se "vinte e cinco pontos cinco zero")
+Lidar com datas e horários ("15/12/2023" torna-se "15 de dezembro, dois mil vinte e três")
+Símbolos de processamento e caracteres especiais ("$" se torna "dólares", "@" se torna "at")
+Resolução de homógrafos com base no contexto ("leitura" como tempo presente versus tempo passado)
+
+A normalização de texto impede que o sistema tente pronunciar símbolos ou dígitos brutos, o que produziria uma saída não natural ou incompreensível.
+
+Análise linguística: mapear texto para phonemes
+A análise linguística quebra o texto normalizado em phonemes (as menores unidades de som) e determina como pronunciar cada palavra. O estágio de análise linguística:
+
+Segmenta o texto em palavras e sílabas.
+Pesquisa pronúncias de palavras em léxicos (dicionários de pronúncia).
+Aplica regras G2P ou modelos neurais para lidar com palavras desconhecidas.
+Marca limites sílabos e identifica sílabas estressadas.
+Determina o contexto fonético para sons adjacentes.
+Conversão de grafema para fonema
+A conversão G2P (grapheme-to-phoneme) mapeia letras escritas (grafemes) para sons de pronúncia (phonemes). A ortografia em inglês não indica de forma confiável a pronúncia, portanto, os sistemas G2P usam regras e padrões aprendidos.
+
+Por exemplo:
+
+A palavra "embora" é convertida para /θoʊ/
+A palavra "through" é convertida para "/θruː/"
+A palavra "tosse" se pronuncia como /kɔːf/.
+Cada palavra contém as letras "ough", mas a pronúncia difere drasticamente.
+
+Os sistemas G2P modernos usam redes neurais treinadas em dicionários de pronúncia. Esses modelos aprendem padrões entre ortografia e som, manipulando palavras incomuns, nomes adequados e variações regionais mais normalmente do que sistemas baseados em regras.
+
+Ao determinar phonemes, a análise linguística geralmente usa um modelo de transformador para ajudar a considerar o contexto. Por exemplo, a palavra "read" é pronunciada de forma diferente em "Eu leio livros" (presente do indicativo: /riːd/) versus "Eu li esse livro ontem" (pretérito perfeito: /rɛd/).
+
+Geração de prosódia: determinar a pronúncia
+Prosody refere-se aos padrões de ritmo, estresse e entonação que fazem a fala soar natural. A geração de prosódia determina como dizer palavras, não apenas quais sons produzir.
+
+Elementos de prosódia
+Prosody abrange várias características vocais:
+
+Contornos de tom: padrões de tom crescentes ou decrescentes que sinalizam perguntas versus instruções
+Duração: quanto tempo manter cada som, criando ênfase ou ritmo natural
+Intensidade: variações de volume que realçam palavras importantes
+Pausas: quebras entre frases ou sentenças que ajudam na compreensão
+Padrões de estresse: quais sílabas recebem ênfase em palavras e frases
+Prosody tem um efeito significativo sobre como o texto falado é interpretado. Por exemplo, considere como a seguinte frase muda de significado dependendo de qual sílaba ou palavra é enfatizada:
+
+"Eu nunca disse que ele comeu o bolo."
+"Eu nunca disse que ele comeu o bolo."
+Eu nunca disse que ele comeu o bolo.
+"Eu nunca disse que ele comeu o bolo."
+
+# Predição de prosódia baseada em Transformer
+
+Sistemas modernos de síntese de fala usam redes neurais transformadoras para prever prosódia. Os transformadores se destacam na compreensão do contexto em frases inteiras, não apenas em palavras adjacentes.
+
+## O processo de geração de prosódia
+
+Codificação de entrada: o transformador recebe a sequência de phoneme com recursos linguísticos (pontuação, parte da fala, estrutura de frases)
+Análise contextual: mecanismos de autoatendimento identificam relações entre palavras (por exemplo, quais substantivos fazem referência a um pronome, em que os limites da frase caem)
+Previsão de prosódia: o modelo gera valores previstos para tom, duração e energia em cada fonema
+Fatores de estilo: o sistema considera o estilo de fala (neutro, expressivo, conversacional) e características do alto-falante
+Os transformadores preveem prosódia aprendendo com milhares de horas de fala gravada emparelhada com transcrições. O modelo descobre padrões: as perguntas sobem em tom no final, vírgulas sinalizam breves pausas, palavras enfatizadas se alongam ligeiramente e palavras finais de frase geralmente caem em tom.
+
+# Fatores que influenciam as escolhas prosódicas
+
+Sintaxe: limites de cláusula indicam onde pausar
+Semântica: Conceitos importantes recebem ênfase
+Contexto do discurso: informações ou respostas contrastantes a perguntas podem trazer estresse extra
+Identidade do locutor: cada voz tem intervalo de tom e taxa de fala características
+Tom emocional: Excitação, preocupação ou neutralidade moldam padrões prosódicos
+As previsões prosódicas criam uma especificação de destino: "Produza o fonema /æ/ a 180 Hz por 80 milissegundos com intensidade moderada e depois pausar por 200 milissegundos".
+
+
+# Avaliação do módulo
+
+1. Que atividade acontece durante a fase de pré-processamento do reconhecimento de fala?
+   R: Os vetores de características são extraídos da onda sonora para modelagem.
+
+  2. O que são phonemes?
+     R: A menor unidade de som em fala
+
+3. Por que é importante gerar prosódia na síntese de fala?
+ R: A prosódia garante uma pronúncia natural e cadência de fala.
 
 
 
