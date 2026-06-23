@@ -1,1 +1,41 @@
+Redes Neurais Convolucionais
+
+A capacidade de usar filtros para aplicar efeitos a imagens é útil em tarefas de processamento de imagem, como você pode executar com o software de edição de imagem. No entanto, o objetivo da pesquisa visual computacional é, muitas vezes, extrair significado, ou pelo menos insights acionáveis, de imagens; que requer a criação de modelos de machine learning treinados para reconhecer recursos com base em grandes volumes de imagens existentes.
+
+Uma das arquiteturas de modelo de aprendizado de máquina mais comuns para visão computacional é uma rede neural convolucional (CNN), um tipo de arquitetura de aprendizado profundo. As CNNs usam filtros para extrair mapas de características numéricas de imagens e, em seguida, inserem os valores das características em um modelo de aprendizado profundo para gerar uma predição de rótulo. Por exemplo, em um cenário de classificação de imagem , o rótulo representa o assunto principal da imagem (em outras palavras, do que se trata essa imagem?). Você pode treinar um modelo da CNN com imagens de diferentes tipos de frutas (como maçã, banana e laranja) para que o rótulo previsto seja o tipo de fruta em uma determinada imagem.
+
+No processo de treinamento de uma CNN, os kernels de filtro são inicialmente definidos usando valores de peso gerados aleatoriamente. Em seguida, conforme o processo de treinamento progride, as previsões de modelos são avaliadas em relação aos valores de rótulo conhecidos e os pesos de filtro são ajustados para melhorar a precisão. Eventualmente, o modelo treinado para classificação de imagens de frutas usa os pesos dos filtros que melhor extraem recursos, ajudando na identificação de diferentes tipos de frutas.
+
+O diagrama a seguir ilustra como funciona uma CNN para um modelo de classificação de imagem:
+
+1. Imagens com rótulos conhecidos (por exemplo, 0: maçã, 1: banana ou 2: laranja) são alimentadas na rede para treinar o modelo.
+2. Uma ou mais camadas de filtros são usadas para extrair recursos de cada imagem conforme ela é alimentada pela rede. Os kernels de filtro começam com pesos atribuídos aleatoriamente e geram matrizes de valores numéricos chamados mapas de recursos. Camadas adicionais podem agregar ou reduzir o tamanho dos mapas de características para criar matrizes menores que enfatizam as principais características visuais extraídas pelos filtros.
+3. Os mapas de recursos são mesclados em uma única matriz dimensional de valores de recurso.
+4. Os valores das características são inseridos em uma rede neural totalmente conectada.
+5. A camada de saída da rede neural usa uma softmax ou função semelhante para produzir um resultado que contenha um valor de probabilidade para cada classe possível, por exemplo [0,2, 0,5, 0,3].
+
+Durante o treinamento, as probabilidades de saída são comparadas com o rótulo de classe real – por exemplo, uma imagem de uma banana (classe 1) deve ter o valor [0,0, 1,0, 0,0]. A diferença entre as pontuações de classe previstas e reais é usada para calcular a perda no modelo. Em seguida, os pesos na rede neural totalmente conectada e os kernels de filtro nas camadas de extração de recursos são modificados para reduzir essa perda.
+
+O processo de treinamento é repetido em várias épocas até que um conjunto ideal de pesos seja aprendido. Em seguida, os pesos são salvos e o modelo pode ser usado para prever rótulos para novas imagens para as quais o rótulo é desconhecido.
+
+Transformadores de Visão e Modelos Multimodais
+
+As CNNs estão no centro das soluções de visão computacional há muitos anos. Embora sejam comumente usados para resolver problemas de classificação de imagem, conforme descrito anteriormente, eles também são a base para modelos de pesquisa visual computacional mais complexos. Por exemplo, modelos de detecção de objetos combinam camadas de extração de características de CNN com a identificação de regiões de interesse em imagens para localizar múltiplas classes de objetos na mesma imagem. Muitos avanços na visão computacional ao longo das décadas foram impulsionados por melhorias nos modelos baseados na CNN.
+
+No entanto, em outra disciplina de IA - NLP (processamento de linguagem natural), outro tipo de arquitetura de rede neural, chamada transformador, possibilitou o desenvolvimento de modelos especializados para a linguagem.
+
+Modelagem Semântica Para Idioma – Transformadores
+
+Os transformers funcionam processando grandes volumes de dados, codificando tokens de linguagem (que representam palavras ou frases individuais) como incorporações baseadas em vetores (matrizes de valores numéricos). Uma técnica chamada atenção é usada para atribuir valores de inserção que refletem diferentes aspectos de como cada token é usado no contexto de outros tokens. Você pode pensar nas inserções como vetores no espaço multidimensional, no qual cada dimensão insere um atributo linguístico de um token com base em seu contexto no texto de treinamento, criando relações semânticas entre tokens. Tokens que normalmente são usados em contextos semelhantes definem vetores mais alinhados do que palavras não relacionadas.
+
+Tokens semanticamente semelhantes são codificados em direções semelhantes, criando um modelo de linguagem semântica que possibilita a criação de soluções NLP sofisticadas para análise de texto, tradução, geração de idioma e outras tarefas.
+
+Modelo Semântico Para Imagens – Transformadores de visão
+
+O sucesso dos transformadores como forma de criar modelos de linguagem levou os pesquisadores de IA a considerar se a mesma abordagem seria eficaz para dados de imagem. O resultado é o desenvolvimento de modelos vit ( transformador de visão ), em que um modelo é treinado usando um grande volume de imagens. Em vez de codificar tokens baseados em texto, o transformador extrai da imagem patches de valores de pixel e gera um vetor linear a partir desses valores.
+
+
+Reunindo Todos os Elementos - Modelos Multimodais
+
+Um transformador de linguagem cria inserções que definem um vocabulário linguístico que codifica relações semânticas entre palavras. Um transformador de visão cria um vocabulário visual que realiza a mesma função para características visuais. Quando os dados de treinamento incluem imagens com descrições de texto associadas, podemos combinar os codificadores de ambos os transformadores em um modelo multimodal e usamos uma técnica chamada atenção cruzada entre modelos para definir uma representação espacial unificada das incorporações, assim.
 
